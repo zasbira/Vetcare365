@@ -23,6 +23,7 @@ public class VisitDao implements IVisitimp {
         } catch (SQLException e) {
             System.out.println("Erreur de connexion : " + e.getMessage());
         }
+
     }
 
     // Create a new visit in the database

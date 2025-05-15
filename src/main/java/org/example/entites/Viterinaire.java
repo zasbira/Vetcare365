@@ -23,6 +23,15 @@ public class Viterinaire {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return "Viterinaire{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", specialty='" + specialty + '\'' +
+                '}';
+    }
+
     public void setName(String name) {
         this.name = name;
     }

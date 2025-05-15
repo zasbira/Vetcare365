@@ -22,6 +22,7 @@ public class PetsDao implements IPetsimp {
         } catch (SQLException e) {
             System.out.println("Erreur de connexion : " + e.getMessage());
         }
+
     }
 
     // Create a new pet in the database

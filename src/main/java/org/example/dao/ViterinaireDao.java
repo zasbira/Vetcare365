@@ -15,70 +15,61 @@ public class ViterinaireDao implements IViterinaireimp {
 
     private static final Logger logger = Logger.getLogger(ViterinaireDao.class.getName());
     private static Connection connection;
-    private String url = "jdbc:mysql://localhost:3306/db";
-    private String user = "root";
-    private String pass = "";
+    private final String url = "jdbc:mysql://localhost:3306/db";
+    private final String user = "root";
+    private final String pass = "";
 
     // Constructor to initialize the connection
     public ViterinaireDao() {
         try {
-            connection = DriverManager.getConnection(url, user, pass); // Initialize connection here
-            if (connection != null) {
-                System.out.println("Database connection established successfully.");
-            } else {
-                System.out.println("Failed to establish database connection.");
-            }
+            connection = DriverManager.getConnection(url, user, pass);
+            System.out.println("Connexion à la base réussie.");
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Failed to connect to the database", e); // Log the error
-            System.out.println("Erreur de connexion à la base de données. Veuillez vérifier votre configuration.");
+            logger.log(Level.SEVERE, "Erreur de connexion à la base de données", e);
+            System.out.println("Échec de connexion à la base de données.");
         }
     }
 
-    // Create a new Viterinaire
+    // Create a new veterinarian
     public boolean createViterinaire(Viterinaire viterinaire) {
         String query = "INSERT INTO viterinaire (name, specialty) VALUES (?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, viterinaire.getName());
             ps.setString(2, viterinaire.getSpecialty());
-
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error while adding the viterinaire", e); // Log the error
-            System.out.println("Erreur lors de l'ajout du vétérinaire.");
+            logger.log(Level.SEVERE, "Erreur lors de l'ajout du vétérinaire", e);
             return false;
         }
     }
 
-    // Update an existing Viterinaire by their ID
+    // Update an existing veterinarian
     public boolean updateViterinaire(int id, Viterinaire updatedViterinaire) {
         String query = "UPDATE viterinaire SET name = ?, specialty = ? WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, updatedViterinaire.getName());
             ps.setString(2, updatedViterinaire.getSpecialty());
             ps.setInt(3, id);
-
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error while updating the viterinaire", e); // Log the error
-            System.out.println("Erreur lors de la mise à jour du vétérinaire.");
+            logger.log(Level.SEVERE, "Erreur lors de la mise à jour du vétérinaire", e);
             return false;
         }
     }
 
-    // Delete a Viterinaire by their ID
+    // Delete a veterinarian
     public boolean deleteViterinaire(int id) {
         String query = "DELETE FROM viterinaire WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error while deleting the viterinaire", e); // Log the error
-            System.out.println("Erreur lors de la suppression du vétérinaire.");
+            logger.log(Level.SEVERE, "Erreur lors de la suppression du vétérinaire", e);
             return false;
         }
     }
 
-    // Fetch all veterinarians
+    // Get all veterinarians
     public static List<Viterinaire> getAllViterinaires() {
         List<Viterinaire> viterinaires = new ArrayList<>();
         String query = "SELECT * FROM viterinaire";
@@ -92,13 +83,12 @@ public class ViterinaireDao implements IViterinaireimp {
                 viterinaires.add(viterinaire);
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error while fetching all viterinaires", e); // Log the error
-            System.out.println("Erreur lors de la récupération des vétérinaires.");
+            logger.log(Level.SEVERE, "Erreur lors de la récupération des vétérinaires", e);
         }
         return viterinaires;
     }
 
-    // Get a Viterinaire by ID
+    // Get veterinarian by ID
     public Viterinaire getViterinaireById(int id) {
         String query = "SELECT * FROM viterinaire WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -113,13 +103,12 @@ public class ViterinaireDao implements IViterinaireimp {
                 }
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error while fetching viterinaire by ID", e); // Log the error
-            System.out.println("Erreur lors de la recherche par ID.");
+            logger.log(Level.SEVERE, "Erreur lors de la récupération du vétérinaire par ID", e);
         }
         return null;
     }
 
-    // Find veterinarians by name (either first or last name)
+    // Search veterinarians by name
     public List<Viterinaire> findViterinairesByName(String name) {
         List<Viterinaire> viterinaires = new ArrayList<>();
         String query = "SELECT * FROM viterinaire WHERE name LIKE ?";
@@ -136,39 +125,45 @@ public class ViterinaireDao implements IViterinaireimp {
                 }
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error while fetching viterinaires by name", e); // Log the error
-            System.out.println("Erreur lors de la recherche par nom.");
+            logger.log(Level.SEVERE, "Erreur lors de la recherche de vétérinaires par nom", e);
         }
         return viterinaires;
     }
 
+    // === Implémentation de l'interface IViterinaireimp ===
+
     @Override
     public boolean ajouterViterinaire(Visite an) {
+        // À personnaliser selon le besoin (ici, fausse implémentation)
         return false;
     }
 
     @Override
     public boolean supprimerViterinaire(int id) {
-        return false;
+        return deleteViterinaire(id);
     }
 
     @Override
     public boolean modifierViterinaire(Visite an, int id) {
+        // À personnaliser si Visite est liée à Viterinaire
         return false;
     }
 
     @Override
     public Pets getViterinaireId(int id) {
+        // À implémenter si nécessaire
         return null;
     }
 
     @Override
     public List<Pets> getViterinaires() {
-        return List.of();
+        // À implémenter si nécessaire
+        return new ArrayList<>();
     }
 
     @Override
     public List<Pets> afficherViterinaireNom(String nom) {
-        return List.of();
+        // À implémenter si nécessaire
+        return new ArrayList<>();
     }
 }

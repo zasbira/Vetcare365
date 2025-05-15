@@ -31,6 +31,7 @@ public class OwnersDao implements IOwnersimp {
             logger.log(Level.SEVERE, "Failed to connect to the database", e); // Log the error
             System.out.println("Erreur de connexion à la base de données. Veuillez vérifier votre configuration.");
         }
+
     }
 
     // Create a new owner
