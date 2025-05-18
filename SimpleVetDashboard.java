@@ -9,11 +9,225 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
- * Simple VetCare360 Dashboard with dark sidebar
- * No database dependencies to ensure it runs properly
+ * VetCare360 Dashboard with database connectivity and CRUD operations
  */
+// Entity classes with attributes
+class Owner {
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String city;
+    private String telephone;
+    private String email;
+    
+    public Owner() {}
+    
+    public Owner(int id, String firstName, String lastName, String address, String city, String telephone, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.city = city;
+        this.telephone = telephone;
+        this.email = email;
+    }
+    
+    // Getters and setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
+    
+    public String getTelephone() { return telephone; }
+    public void setTelephone(String telephone) { this.telephone = telephone; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
+}
+
+class Vet {
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String specialization;
+    private String telephone;
+    private String email;
+    
+    public Vet() {}
+    
+    public Vet(int id, String firstName, String lastName, String specialization, String telephone, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.specialization = specialization;
+        this.telephone = telephone;
+        this.email = email;
+    }
+    
+    // Getters and setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    
+    public String getSpecialization() { return specialization; }
+    public void setSpecialization(String specialization) { this.specialization = specialization; }
+    
+    public String getTelephone() { return telephone; }
+    public void setTelephone(String telephone) { this.telephone = telephone; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " (" + specialization + ")";
+    }
+}
+
+class Animal {
+    private int id;
+    private String name;
+    private Date birthDate;
+    private String type;
+    private String breed;
+    private String gender;
+    private Owner owner;
+    
+    public Animal() {}
+    
+    public Animal(int id, String name, Date birthDate, String type, String breed, String gender, Owner owner) {
+        this.id = id;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.type = type;
+        this.breed = breed;
+        this.gender = gender;
+        this.owner = owner;
+    }
+    
+    // Getters and setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    public Date getBirthDate() { return birthDate; }
+    public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
+    
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+    
+    public String getBreed() { return breed; }
+    public void setBreed(String breed) { this.breed = breed; }
+    
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
+    
+    public Owner getOwner() { return owner; }
+    public void setOwner(Owner owner) { this.owner = owner; }
+    
+    @Override
+    public String toString() {
+        return name + " (" + type + ")";
+    }
+}
+
+class Visit {
+    private int id;
+    private Date date;
+    private String description;
+    private Animal animal;
+    private Vet vet;
+    
+    public Visit() {}
+    
+    public Visit(int id, Date date, String description, Animal animal, Vet vet) {
+        this.id = id;
+        this.date = date;
+        this.description = description;
+        this.animal = animal;
+        this.vet = vet;
+    }
+    
+    // Getters and setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    
+    public Date getDate() { return date; }
+    public void setDate(Date date) { this.date = date; }
+    
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    
+    public Animal getAnimal() { return animal; }
+    public void setAnimal(Animal animal) { this.animal = animal; }
+    
+    public Vet getVet() { return vet; }
+    public void setVet(Vet vet) { this.vet = vet; }
+}
+
+// Database connection management
+class DBConnection {
+    private static final String URL = "jdbc:mysql://localhost:3306/vetcare360";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
+    private static Connection connection = null;
+    
+    public static Connection getConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            } catch (ClassNotFoundException e) {
+                throw new SQLException("Database driver not found", e);
+            }
+        }
+        return connection;
+    }
+    
+    public static void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing database connection: " + e.getMessage());
+            }
+        }
+    }
+}
+
 public class SimpleVetDashboard extends Application {
     
     // UI components
@@ -21,9 +235,31 @@ public class SimpleVetDashboard extends Application {
     private StackPane contentArea;
     private Button homeBtn, ownersBtn, vetsBtn, animalsBtn, visitsBtn;
     
+    // Data lists for tables
+    private ObservableList<Owner> ownersList = FXCollections.observableArrayList();
+    private ObservableList<Vet> vetsList = FXCollections.observableArrayList();
+    private ObservableList<Animal> animalsList = FXCollections.observableArrayList();
+    private ObservableList<Visit> visitsList = FXCollections.observableArrayList();
+    
+    // Database connectivity flag
+    private boolean databaseConnected = false;
+    
     @Override
     public void start(Stage primaryStage) {
         try {
+            // Try to connect to database
+            try {
+                DBConnection.getConnection();
+                databaseConnected = true;
+                System.out.println("Database connection successful!");
+                // Load initial data
+                loadAllData();
+            } catch (SQLException e) {
+                databaseConnected = false;
+                System.err.println("Database connection failed: " + e.getMessage());
+                // We continue with the application even if DB connection fails
+            }
+            
             // Create main layout
             mainLayout = new BorderPane();
             
@@ -85,16 +321,16 @@ public class SimpleVetDashboard extends Application {
         homeBtn.setOnAction(e -> showDashboard());
         
         ownersBtn = createNavButton("Propriétaires", false);
-        ownersBtn.setOnAction(e -> showMessage("Gestion des propriétaires"));
+        ownersBtn.setOnAction(e -> showOwners());
         
         vetsBtn = createNavButton("Vétérinaires", false);
-        vetsBtn.setOnAction(e -> showMessage("Gestion des vétérinaires"));
+        vetsBtn.setOnAction(e -> showVets());
         
         animalsBtn = createNavButton("Animaux", false);
-        animalsBtn.setOnAction(e -> showMessage("Gestion des animaux"));
+        animalsBtn.setOnAction(e -> showAnimals());
         
         visitsBtn = createNavButton("Visites", false);
-        visitsBtn.setOnAction(e -> showMessage("Gestion des visites"));
+        visitsBtn.setOnAction(e -> showVisits());
         
         // Add navigation elements
         sidebar.getChildren().addAll(
@@ -166,6 +402,178 @@ public class SimpleVetDashboard extends Application {
     }
     
     /**
+     * Load data from database
+     */
+    private void loadAllData() {
+        if (!databaseConnected) return;
+        
+        try {
+            // Load owners
+            loadOwners();
+            
+            // Load vets
+            loadVets();
+            
+            // Load animals
+            loadAnimals();
+            
+            // Load visits
+            loadVisits();
+            
+        } catch (SQLException e) {
+            System.err.println("Error loading data: " + e.getMessage());
+            showError("Error loading data from database: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Load owners from database
+     */
+    private void loadOwners() throws SQLException {
+        ownersList.clear();
+        String query = "SELECT * FROM owners";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Owner owner = new Owner(
+                    rs.getInt("id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getString("address"),
+                    rs.getString("city"),
+                    rs.getString("telephone"),
+                    rs.getString("email")
+                );
+                ownersList.add(owner);
+            }
+        }
+    }
+    
+    /**
+     * Load vets from database
+     */
+    private void loadVets() throws SQLException {
+        vetsList.clear();
+        String query = "SELECT * FROM vets";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Vet vet = new Vet(
+                    rs.getInt("id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getString("specialization"),
+                    rs.getString("telephone"),
+                    rs.getString("email")
+                );
+                vetsList.add(vet);
+            }
+        }
+    }
+    
+    /**
+     * Load animals from database
+     */
+    private void loadAnimals() throws SQLException {
+        animalsList.clear();
+        String query = "SELECT a.*, o.id as owner_id, o.first_name, o.last_name, o.address, o.city, o.telephone, o.email " +
+                      "FROM animals a JOIN owners o ON a.owner_id = o.id";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Owner owner = new Owner(
+                    rs.getInt("owner_id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getString("address"),
+                    rs.getString("city"),
+                    rs.getString("telephone"),
+                    rs.getString("email")
+                );
+                
+                Animal animal = new Animal(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getDate("birth_date"),
+                    rs.getString("type"),
+                    rs.getString("breed"),
+                    rs.getString("gender"),
+                    owner
+                );
+                animalsList.add(animal);
+            }
+        }
+    }
+    
+    /**
+     * Load visits from database
+     */
+    private void loadVisits() throws SQLException {
+        visitsList.clear();
+        String query = "SELECT v.*, a.id as animal_id, a.name as animal_name, a.birth_date, a.type, a.breed, a.gender, " +
+                      "o.id as owner_id, o.first_name as owner_first_name, o.last_name as owner_last_name, " +
+                      "o.address, o.city, o.telephone, o.email, " +
+                      "vt.id as vet_id, vt.first_name as vet_first_name, vt.last_name as vet_last_name, " +
+                      "vt.specialization, vt.telephone as vet_telephone, vt.email as vet_email " +
+                      "FROM visits v " +
+                      "JOIN animals a ON v.animal_id = a.id " +
+                      "JOIN owners o ON a.owner_id = o.id " +
+                      "JOIN vets vt ON v.vet_id = vt.id";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Owner owner = new Owner(
+                    rs.getInt("owner_id"),
+                    rs.getString("owner_first_name"),
+                    rs.getString("owner_last_name"),
+                    rs.getString("address"),
+                    rs.getString("city"),
+                    rs.getString("telephone"),
+                    rs.getString("email")
+                );
+                
+                Animal animal = new Animal(
+                    rs.getInt("animal_id"),
+                    rs.getString("animal_name"),
+                    rs.getDate("birth_date"),
+                    rs.getString("type"),
+                    rs.getString("breed"),
+                    rs.getString("gender"),
+                    owner
+                );
+                
+                Vet vet = new Vet(
+                    rs.getInt("vet_id"),
+                    rs.getString("vet_first_name"),
+                    rs.getString("vet_last_name"),
+                    rs.getString("specialization"),
+                    rs.getString("vet_telephone"),
+                    rs.getString("vet_email")
+                );
+                
+                Visit visit = new Visit(
+                    rs.getInt("id"),
+                    rs.getDate("date"),
+                    rs.getString("description"),
+                    animal,
+                    vet
+                );
+                
+                visitsList.add(visit);
+            }
+        }
+    }
+    
+    /**
      * Show dashboard view
      */
     private void showDashboard() {
@@ -191,7 +599,12 @@ public class SimpleVetDashboard extends Application {
         Label subtitleLabel = new Label("Gestion de clinique vétérinaire");
         subtitleLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
         
-        titleBox.getChildren().addAll(titleLabel, subtitleLabel);
+        // Add connection status
+        String statusText = databaseConnected ? "Connecté à la base de données" : "Base de données non connectée";
+        Label dbStatusLabel = new Label(statusText);
+        dbStatusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: " + (databaseConnected ? "#2e7d32" : "#c62828") + "; -fx-font-weight: bold;");
+        
+        titleBox.getChildren().addAll(titleLabel, subtitleLabel, dbStatusLabel);
         header.getChildren().add(titleBox);
         
         // Create stats cards
@@ -350,17 +763,21 @@ public class SimpleVetDashboard extends Application {
     }
     
     /**
-     * Show a simple message in the content area
+     * Show a centered message
      */
     private void showMessage(String message) {
+        VBox messageBox = new VBox(20);
+        messageBox.setAlignment(Pos.CENTER);
+        messageBox.setPadding(new Insets(100, 20, 20, 20));
+        
         Label messageLabel = new Label(message);
         messageLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         
-        StackPane messagePane = new StackPane();
-        messagePane.getChildren().add(messageLabel);
+        messageBox.getChildren().add(messageLabel);
         
+        // Set as active content
         contentArea.getChildren().clear();
-        contentArea.getChildren().add(messagePane);
+        contentArea.getChildren().add(messageBox);
     }
     
     /**
