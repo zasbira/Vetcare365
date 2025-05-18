@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+<<<<<<< HEAD
     <groupId>com.vetcare360</groupId>
     <artifactId>vetcare360</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -19,6 +20,28 @@
 
     <dependencies>
         <!-- JavaFX -->
+=======
+    <groupId>org.example</groupId>
+    <artifactId>mini_project_fixed</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>24</maven.compiler.source>
+        <maven.compiler.target>24</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javafx.version>17</javafx.version> <!-- JavaFX version -->
+    </properties>
+
+    <dependencies>
+        <!-- MySQL Connector dependency -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.3.0</version>
+        </dependency>
+
+        <!-- JavaFX dependencies -->
+>>>>>>> 39345cd1680223a8812950555cdd337e4e539244
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -29,6 +52,7 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+<<<<<<< HEAD
         
         <!-- Lombok for reducing boilerplate -->
         <dependency>
@@ -65,10 +89,13 @@
             <artifactId>HikariCP</artifactId>
             <version>5.0.1</version>
         </dependency>
+=======
+>>>>>>> 39345cd1680223a8812950555cdd337e4e539244
     </dependencies>
 
     <build>
         <plugins>
+<<<<<<< HEAD
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -84,6 +111,22 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.vetcare360.VetCare360App</mainClass>
+=======
+            <!-- JavaFX Maven Plugin to handle JavaFX run configuration -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>NewFXMain</mainClass> <!-- Replace with your main class -->
+>>>>>>> 39345cd1680223a8812950555cdd337e4e539244
                 </configuration>
             </plugin>
         </plugins>
