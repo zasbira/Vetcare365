@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AjouterVisiteController"
+            prefHeight="700.0" prefWidth="1000.0"
+            stylesheets="/resources/css/style.css">
+    <top>
+        <VBox styleClass="header">
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <padding>
+                    <Insets top="15" right="20" bottom="15" left="20"/>
+                </padding>
+                <Button text="← Retour" onAction="#retourDetails"/>
+                <Label text="Ajouter une Visite" styleClass="header-label"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- Animal Info Summary -->
+            <VBox styleClass="card">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
+                <GridPane hgap="15" vgap="5">
+                    <Label text="Propriétaire:" styleClass="form-label" 
+                           GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <Label fx:id="proprietaireLabel" 
+                           GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                    
+                    <Label text="Animal:" styleClass="form-label" 
+                           GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <Label fx:id="animalLabel" 
+                           GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                </GridPane>
+            </VBox>
+            
+            <!-- Add Visit Form -->
+            <HBox spacing="20" VBox.vgrow="ALWAYS">
+                <!-- Form -->
+                <VBox styleClass="card, form-container" maxWidth="500" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    
+                    <Label text="Nouvelle Visite" styleClass="section-title"/>
+                    <Separator />
+                    
+                    <GridPane hgap="15" vgap="15">
+                        <padding>
+                            <Insets top="20" />
+                        </padding>
+                        
+                        <Label text="Date:" styleClass="form-label" 
+                               GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <DatePicker fx:id="dateVisite" 
+                                   GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                        
+                        <Label text="Vétérinaire:" styleClass="form-label" 
+                               GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <ComboBox fx:id="veterinaireComboBox" promptText="Sélectionnez un vétérinaire" 
+                                  GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                        
+                        <Label text="Description:" styleClass="form-label" 
+                               GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <TextArea fx:id="descriptionField" promptText="Description de la visite" 
+                                  GridPane.rowIndex="2" GridPane.columnIndex="1" 
+                                  wrapText="true" prefRowCount="4" />
+                    </GridPane>
+                    
+                    <HBox spacing="15" alignment="CENTER" style="-fx-padding: 30 0 0 0;">
+                        <Button text="💾 Enregistrer" onAction="#enregistrerVisite" defaultButton="true" />
+                        <Button text="❌ Annuler" onAction="#retourDetails" styleClass="cancel-button" />
+                    </HBox>
+                </VBox>
+                
+                <!-- Previous Visits -->
+                <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    
+                    <Label text="Visites précédentes" styleClass="section-title"/>
+                    <Separator />
+                    
+                    <TableView fx:id="visitesPrecedentesTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="dateColumn" text="Date" prefWidth="120" />
+                            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="250" />
+                            <TableColumn fx:id="veterinaireColumn" text="Vétérinaire" prefWidth="120" />
+                        </columns>
+                        <placeholder>
+                            <Label text="Aucune visite précédente" />
+                        </placeholder>
+                    </TableView>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER" styleClass="header">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="© 2025 VetCare 360" textFill="white"/>
+        </HBox>
+    </bottom>
+</BorderPane>

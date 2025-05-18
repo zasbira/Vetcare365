@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.VeterinairesController"
+            prefHeight="700.0" prefWidth="1000.0"
+            stylesheets="/resources/css/style.css">
+    <top>
+        <VBox styleClass="header">
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <padding>
+                    <Insets top="15" right="20" bottom="15" left="20"/>
+                </padding>
+                <Button text="← Accueil" onAction="#retourAccueil"/>
+                <Label text="Liste des Vétérinaires" styleClass="header-label"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- Filters and actions -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Filtrer par spécialité:" />
+                <ComboBox fx:id="specialiteFilter" prefWidth="200" promptText="Toutes les spécialités" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="🔄 Actualiser" onAction="#refreshVeterinaires" />
+            </HBox>
+            
+            <!-- Table of veterinarians -->
+            <TableView fx:id="veterinairesTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="nomColumn" text="Nom" prefWidth="150" />
+                    <TableColumn fx:id="prenomColumn" text="Prénom" prefWidth="150" />
+                    <TableColumn fx:id="specialiteColumn" text="Spécialité" prefWidth="200" />
+                    <TableColumn fx:id="emailColumn" text="Email" prefWidth="200" />
+                    <TableColumn fx:id="telephoneColumn" text="Téléphone" prefWidth="150" />
+                </columns>
+                <placeholder>
+                    <Label text="Aucun vétérinaire trouvé" />
+                </placeholder>
+            </TableView>
+        </VBox>
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER" styleClass="header">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="© 2025 VetCare 360" textFill="white"/>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.HomeController">
+    <top>
+        <VBox alignment="CENTER" spacing="10" padding="20">
+            <ImageView fitHeight="80" preserveRatio="true">
+                <image>
+                    <Image url="@../resources/images/logo.png"/>
+                </image>
+            </ImageView>
+            <Label text="VetCare 360" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Label text="Bienvenue à la clinique vétérinaire VetCare 360"/>
+        </VBox>
+    </top>
+    <center>
+        <VBox spacing="20" alignment="CENTER" padding="30">
+            <Button text="Liste des vétérinaires" onAction="#goToVeterinaires"/>
+            <Button text="Recherche propriétaire" onAction="#goToRechercheProprietaire"/>
+            <Button text="Ajouter un propriétaire" onAction="#goToAjoutProprietaire"/>
+        </VBox>
+    </center>
+</BorderPane>
