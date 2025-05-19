@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.vetjavafx.Controller.AddOwnerController">
+    <children>
+        <!-- Top header bar -->
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#153446" height="100.0" layoutX="0.0" layoutY="0.0" stroke="TRANSPARENT" strokeType="INSIDE" width="800.0" />
+        
+        <!-- Logo Image -->
+        <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="20.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@logo.jpg" />
+            </image>
+        </ImageView>
+        
+        <Label layoutX="120.0" layoutY="25.0" prefHeight="50.0" prefWidth="300.0" text="VetCare 360" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="32.0" />
+            </font>
+        </Label>
+
+        <!-- Navigation Buttons -->
+        <HBox alignment="CENTER_RIGHT" layoutX="300.0" layoutY="0.0" prefHeight="80.0" prefWidth="500.0" spacing="15.0">
+            <children>
+                <Button fx:id="backButton" contentDisplay="TEXT_ONLY" mnemonicParsing="false" onAction="#handleBackButtonClick" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 5;" text="Retour" textFill="WHITE">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+
+        <!-- Form Title -->
+        <Label layoutX="50.0" layoutY="110.0" prefHeight="40.0" prefWidth="700.0" style="-fx-text-fill: #153446;" text="Ajouter un Propriétaire">
+            <font>
+                <Font name="System Bold" size="22.0" />
+            </font>
+        </Label>
+
+        <!-- Form Container -->
+        <AnchorPane layoutX="50.0" layoutY="170.0" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: white; -fx-border-color: #153446; -fx-border-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);">
+            <children>
+                <!-- Form Fields with Improved Layout -->
+                <Label layoutX="40.0" layoutY="30.0" prefHeight="30.0" prefWidth="120.0" text="Nom:">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="lastNameField" layoutX="180.0" layoutY="30.0" prefHeight="30.0" prefWidth="300.0" />
+
+                <Label layoutX="40.0" layoutY="80.0" prefHeight="30.0" prefWidth="120.0" text="Prénom:">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="firstNameField" layoutX="180.0" layoutY="80.0" prefHeight="30.0" prefWidth="300.0" />
+
+                <Label layoutX="40.0" layoutY="130.0" prefHeight="30.0" prefWidth="120.0" text="Adresse:">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="addressField" layoutX="180.0" layoutY="130.0" prefHeight="30.0" prefWidth="300.0" />
+
+                <Label layoutX="40.0" layoutY="180.0" prefHeight="30.0" prefWidth="120.0" text="Ville:">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="cityField" layoutX="180.0" layoutY="180.0" prefHeight="30.0" prefWidth="300.0" />
+
+                <Label layoutX="40.0" layoutY="230.0" prefHeight="30.0" prefWidth="120.0" text="Téléphone:">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="phoneField" layoutX="180.0" layoutY="230.0" prefHeight="30.0" prefWidth="300.0" />
+            </children>
+        </AnchorPane>
+
+        <!-- Action buttons -->
+        <HBox alignment="CENTER" layoutX="50.0" layoutY="530.0" prefHeight="60.0" prefWidth="700.0" spacing="30.0">
+            <children>
+                <Button fx:id="saveOwnerButton" mnemonicParsing="false" onAction="#handleSaveOwnerButtonClick" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: #153446; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 4, 0, 0, 2);" text="ENREGISTRER" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Button>
+                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancelButtonClick" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: #DD4B39; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 4, 0, 0, 2);" text="ANNULER" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

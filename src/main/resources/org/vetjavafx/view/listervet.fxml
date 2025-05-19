@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.vetjavafx.Controller.VeterinarianController">
+    <children>
+        <!-- Top header bar -->
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#153446" height="100.0" layoutX="0.0" layoutY="0.0" stroke="TRANSPARENT" strokeType="INSIDE" width="800.0" />
+        
+        <!-- Logo Image -->
+        <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="20.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@logo.jpg" />
+            </image>
+        </ImageView>
+        
+        <Label layoutX="120.0" layoutY="25.0" prefHeight="50.0" prefWidth="300.0" text="VetCare 360" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="32.0" />
+            </font>
+        </Label>
+
+        <!-- Buttons for navigation -->
+        <HBox alignment="CENTER_RIGHT" layoutX="300.0" layoutY="0.0" prefHeight="80.0" prefWidth="500.0" spacing="15.0">
+            <children>
+                <Button fx:id="accButton" contentDisplay="TEXT_ONLY" mnemonicParsing="false" onAction="#handleBackButtonClick" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 5;" text="Acceuil" textFill="WHITE">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+                <Button contentDisplay="TEXT_ONLY" mnemonicParsing="false" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-border-color: white; -fx-border-width: 0 0 3 0; -fx-background-radius: 5;" text="Vétérinaires" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Button>
+                <Button fx:id="Ownerbutton" contentDisplay="TEXT_ONLY" mnemonicParsing="false" onAction="#handleownerButtonClick" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 5;" text="Propriétaires" textFill="WHITE">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+
+        <!-- Page Title -->
+        <HBox alignment="CENTER_LEFT" layoutX="50.0" layoutY="110.0" prefHeight="40.0" prefWidth="700.0">
+            <children>
+                <Label alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="700.0" style="-fx-text-fill: #153446;" text="Liste des Vétérinaires">
+                    <font>
+                        <Font name="System Bold" size="22.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+
+        <!-- TableView with updated styling -->
+        <TableView fx:id="veterinarianTable" layoutX="50.0" layoutY="170.0" prefHeight="300.0" prefWidth="700.0" style="-fx-background-color: white; -fx-border-color: #153446; -fx-border-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);">
+            <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="325.0" text="Nom" />
+                <TableColumn fx:id="specializationColumn" prefWidth="325.0" text="Spécialité" />
+            </columns>
+        </TableView>
+
+        <!-- No add veterinarian button as requested -->
+    </children>
+</AnchorPane>

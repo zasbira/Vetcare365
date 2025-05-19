@@ -1,0 +1,63 @@
+@startuml Vet Clinic Models
+
+' Style settings
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam packageStyle rectangle
+
+package "Models" {
+    class Owner {
+        -id: int
+        -firstName: String
+        -lastName: String
+        -address: String
+        -city: String
+        -phone: String
+        -pets: ArrayList<Pet>
+        +getFullName(): String
+        +addPet(Pet): void
+    }
+
+    class Pet {
+        -name: String
+        -birthDate: String
+        -type: String
+        -visites: ArrayList<Visite>
+        +updatePet(String, String, String): void
+        +addVisite(Visite): void
+    }
+
+    class Visite {
+        -date: String
+        -description: String
+        -veterinarian: Veterinarian
+    }
+
+    class Veterinarian {
+        -name: StringProperty
+        -specialization: StringProperty
+    }
+
+    class DataManager {
+        -{static} OWNERS_FILE: String
+        -{static} ownersCache: List<Owner>
+        +{static} saveOwners(List<Owner>): void
+        +{static} loadOwners(): List<Owner>
+        +{static} updateOwner(Owner): void
+        +{static} addPetToOwner(Owner, Pet): void
+        +{static} addVisitToPet(Owner, Pet, Visite): void
+        +{static} deleteOwner(Owner): void
+    }
+}
+
+' Relationships
+Owner "1" *-- "many" Pet : has >
+Pet "1" *-- "many" Visite : has >
+Visite "1" -- "1" Veterinarian : performed by >
+
+' Data Management
+DataManager ..> Owner : manages
+DataManager ..> Pet : manages
+DataManager ..> Visite : manages
+
+@enduml 
